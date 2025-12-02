@@ -1,130 +1,96 @@
 ASR Evaluation Task – SPIRE Lab IISc
 
-This repository contains my implementation for evaluating two Automatic Speech Recognition (ASR) outputs and analyzing their performance using Word Error Rate (WER) and Character Error Rate (CER), along with audio visualization.
+This repository contains my implementation for evaluating two Automatic Speech Recognition (ASR) outputs using Word Error Rate (WER) and Character Error Rate (CER), along with audio signal visualization.
 
- 1. How the Code Works
-    evaluate_asr.py
+1. How the Code Works
+1.1 evaluate_asr.py
 
-This script:
+This script performs the ASR evaluation:
 
-✔ Reads the provided TSV files containing:
+Reads TSV files containing start time, end time, ASR output, and reference transcript.
 
-start time
+Normalizes text (lowercasing and trimming).
 
-end time
+Computes sentence-level WER and CER using the jiwer library.
 
-ASR output
+Computes overall corpus-level WER and CER.
 
-reference transcript
+Saves results into CSV files (asr1_results.csv, asr2_results.csv).
 
-✔ Normalizes text (lowercasing and trimming).
-✔ Computes sentence-level WER and CER.
-✔ Computes corpus-level WER and CER.
-✔ Saves detailed evaluation results in CSV files.
-✔ Prints summary scores for comparison.
+Prints summary WER/CER values for performance comparison.
 
-Internally, it uses the jiwer library to align the reference and hypothesis sequences and measure substitutions, deletions, and insertions to compute error rates.
+1.2 audio_visualize.py
 
- audio_visualize.py
+This script processes the audio file:
 
-This script:
+Loads the waveform using librosa.
 
-✔ Loads the audio file
-✔ Displays:
+Displays:
 
-waveform
+Waveform plot
 
-spectrogram (time-frequency plot)
+Spectrogram (time–frequency representation)
 
 RMS energy curve
 
-These plots show:
+These visualizations provide insight into the acoustic properties of speech, energy variations, pause regions, and speech articulation.
 
-Speech structure
-
-Pause regions
-
-Energy variations
-
-Possible regions where recognition difficulty may occur
-
-They support the interpretation of ASR behavior relative to acoustic variation.
-
- 2. Instructions to Run
- Install requirements
+2. Instructions to Run
+Install required libraries
 pip install pandas jiwer librosa matplotlib numpy
 
- Run ASR evaluation
+Run ASR evaluation
 python evaluate_asr.py
 
 
-This will:
+This command evaluates both ASR outputs, generates CSV result files, and prints summary accuracy metrics.
 
-✔ compute sentence-level and overall WER/CER
-✔ generate output files:
-
-asr1_results.csv
-
-asr2_results.csv
-
-✔ print summary accuracy for both systems
-
- Run audio visualization
+Run audio visualization
 python audio_visualize.py
 
 
-This will open three plots:
+This command displays waveform, spectrogram, and RMS plots. Screenshots can be used in the written report.
 
-waveform
+3. Explanation of WER and CER
+Word Error Rate (WER)
 
-spectrogram
-
-RMS energy curve
-
-You can just screenshot these and include them in the report, if you like.
-
- 3. Explanation of WER & CER
- Word Error Rate (WER)
-
-Measures the difference between ASR output and reference at the word level.
+WER measures the difference between the ASR output and reference transcript at word level.
 
 Formula:
 
-WER = (Substitutions + Deletions + Insertions) / Total words
+WER = (Substitutions + Deletions + Insertions) / Total reference words
 
 
-Lower WER = better recognition accuracy.
+A lower WER indicates better transcription accuracy.
 
- Character Error Rate (CER)
+Character Error Rate (CER)
 
-Like WER, but computed at the character level.
-Useful for finer text mismatch analysis.
+CER is similar to WER but computed at character level.
+It highlights finer errors such as missing letters or incorrect spellings.
 
-Both metrics are calculated using the jiwer functions in Python.
+Both metrics are computed using alignment-based comparison through the jiwer library.
 
- 4. Analysis of Results — Which ASR Performed Better?
+4. Analysis of Results
 
 After running the evaluation:
 
 System	WER	CER
-ASR1	~0.27	~0.13
-ASR2	~0.47	~0.22
+ASR1	≈ 0.27	≈ 0.13
+ASR2	≈ 0.47	≈ 0.22
 
-✔ ASR1 has lower WER and CER, meaning fewer mistakes
-✔ ASR2 shows more word deletions, substitutions, and insertions
+Observations:
 
- Why is ASR1 better?
+ASR1 has significantly lower WER and CER values.
 
-Its output stays closer to the human reference
+ASR2 makes more substitutions, deletions, and insertions, leading to greater deviation from the reference transcript.
 
-Fewer word-level and spelling-level distortions
+ASR1 maintains contextual accuracy better and aligns more closely with spoken content.
 
-More stable alignment with spoken content
+Conclusion:
 
-➡ Conclusion:
-ASR1 performs significantly better than ASR2 for this dataset.
+ASR1 performs better than ASR2 for this dataset and is the more reliable system in this comparison.
 
- 5. Files in This Repository
+5. Repository Contents
 
 evaluate_asr.py
 
@@ -140,11 +106,11 @@ asr2_results.csv
 
 ASR_Evaluation_Report_Vamsi.pdf
 
- Acknowledgment
+Acknowledgment
 
-Dataset and task description provided by
-SPIRE Lab, Indian Institute of Science (IISc), Bengaluru
+Dataset and task instructions were provided by
+SPIRE Lab, Indian Institute of Science (IISc), Bengaluru.
 
- Author
+Author
 
 Vamsi Krishna
